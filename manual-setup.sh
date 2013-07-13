@@ -12,7 +12,6 @@ mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
 # create new sources.list
 wget -nv https://raw.github.com/paraschas/debian-desktop-setup/master/sources.list
 mv -v sources.list /etc/apt/
-rm -v sources.list
 
 # resynchronize the package index files
 apt-get update
