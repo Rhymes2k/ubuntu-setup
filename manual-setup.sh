@@ -26,6 +26,5 @@ apt-get upgrade -y
 apt-get install -y git
 
 # download and run setup
-sudo -u dp cd $HOME
 sudo -u dp git clone https://github.com/paraschas/debian-desktop-setup.git
 sudo -u dp ./debian-desktop-setup/setup.sh
