@@ -15,6 +15,10 @@ if [ -d .vim ]; then
 fi
 
 ### TODO setup Vim
+sudo apt-get install -y vim
+
+### TODO install essential packages
+sudo apt-get install -y curl
 
 ### download and setup dotfiles
 git clone https://github.com/paraschas/dotfiles.git
@@ -26,7 +30,6 @@ ln -s -b dotfiles/.bashrc_custom .
 ### Node.js
 # Install nvm: node-version manager
 # https://github.com/creationix/nvm
-sudo apt-get install -y git-core
 curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 
 # Load nvm and install latest production node
