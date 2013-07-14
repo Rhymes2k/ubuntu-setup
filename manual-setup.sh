@@ -4,7 +4,10 @@
 # Dimitrios Paraschas (paraschas@gmail.com)
 
 # shell script to be run manually to bootstrap a Debian desktop system.
-# a complete setup script is downloaded with git clone and run afterwards.
+# a more extensive setup script is downloaded with git clone and run afterwards.
+
+# add user dp to the sudoers file. I don't think it's that dangerous.
+sed -i 's/^root\tALL=(ALL) ALL$/&\ndp\tALL=(ALL) ALL/' /etc/sudoers
 
 # backup previous sources.list
 mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
@@ -23,6 +26,6 @@ apt-get upgrade -y
 apt-get install -y git
 
 # download and run setup
-#cd $HOME
-#git clone https://github.com/paraschas/debian-desktop-setup.git
-#./debian-desktop-setup/setup.sh
+sudo -u dp cd $HOME
+sudo -u dp git clone https://github.com/paraschas/debian-desktop-setup.git
+sudo -u dp ./debian-desktop-setup/setup.sh

@@ -5,12 +5,12 @@
 
 # script to configure a Debian desktop system.
 
-# git pull and install dotfiles as well
+### make a backup if needed
 cd $HOME
-if [ -d ./dotfiles/ ]; then
+if [ -d dotfiles ]; then
     mv -iv dotfiles dotfiles.backup
 fi
-if [ -d .vim/ ]; then
+if [ -d .vim ]; then
     mv -iv .vim .vim.backup
 fi
 
