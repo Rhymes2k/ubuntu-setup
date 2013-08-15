@@ -8,7 +8,7 @@
 # automatically run afterwards.
 
 # add user dp to the sudoers file. I don't think it's that dangerous.
-sed -i 's/^root\tALL=(ALL:ALL) ALL$/&\ndp\tALL=(ALL:ALL) ALL/' /etc/sudoers
+sed -i 's/^root\tALL=(ALL:ALL) ALL$/&\ndp\tALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
 # backup previous sources.list
 mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
