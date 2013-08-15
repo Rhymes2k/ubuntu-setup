@@ -20,6 +20,9 @@ sudo apt-get install -y git
 # install curl
 sudo apt-get install -y curl
 
+# install tree
+sudo apt-get install -y tree
+
 ### Fail2ban
 # http://www.fail2ban.org/
 sudo apt-get install -y fail2ban
