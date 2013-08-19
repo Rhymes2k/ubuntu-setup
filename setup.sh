@@ -76,3 +76,22 @@ cd /
 sudo mkdir -v data
 sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
 sudo ln -v -s /data /d
+
+### setup development tools
+while true; do
+    echo ""
+    read -p "do you want to setup some development tools? (y/n): " SETUP_DEV_TOOLS
+    case $SETUP_DEV_TOOLS in
+        [Yy]* )
+            sudo apt-get install module-assistant
+            sudo m-a prepare
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done

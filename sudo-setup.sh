@@ -68,7 +68,7 @@ done
 #            break
 #            ;;
 #        * )
-#            echo "please answer \"y\" for yes or \"n\" for no"
+#            echo "please enter \"y\" for yes or \"n\" for no"
 #            ;;
 #    esac
 #done
