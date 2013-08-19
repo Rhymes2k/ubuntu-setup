@@ -7,12 +7,12 @@
 
 cd $HOME
 
+# TODO this should only run if the script is run directly
 # resynchronize the package index files
 #sudo apt-get update
-sudo apt-get -q update
-
+#sudo apt-get -q update
 # install the newest versions of all packages currently installed on the system
-sudo apt-get upgrade -y
+#sudo apt-get upgrade -y
 
 # install git
 sudo apt-get install -y git
