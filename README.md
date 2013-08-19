@@ -1,11 +1,11 @@
 devops setup of a Debian 7 (Wheezy) desktop system
 
-run as root if sudo is not installed
+run as root to setup sudo for the specified user
 ```sh
-apt-get install sudo
+wget -N https://raw.github.com/paraschas/debian-desktop-setup/master/sudo-setup.sh && chmod +x sudo-setup.sh && ./sudo-setup.sh && rm -v sudo-setup.sh
 ```
 
-run as root [TODO drop usage of root account]
+run as the specified user
 ```sh
 cd $HOME
 

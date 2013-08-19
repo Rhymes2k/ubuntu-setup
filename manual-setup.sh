@@ -7,15 +7,12 @@
 # a more extensive setup script is downloaded with git clone and
 # automatically run afterwards.
 
-# add user dp to the sudoers file. I don't think it's that dangerous.
-sed -i 's/^root\tALL=(ALL:ALL) ALL$/&\ndp\tALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
-
 ### sources.list
 # backup previous sources.list
-mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
+sudo mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
 # create new sources.list
 wget -N https://raw.github.com/paraschas/debian-desktop-setup/master/sources.list
-mv -v sources.list /etc/apt/
+sudo mv -v sources.list /etc/apt/
 
 # resynchronize the package index files
 #sudo apt-get -q update
