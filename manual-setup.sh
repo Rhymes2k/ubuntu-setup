@@ -14,7 +14,7 @@ sed -i 's/^root\tALL=(ALL:ALL) ALL$/&\ndp\tALL=(ALL:ALL) NOPASSWD: ALL/' /etc/su
 # backup previous sources.list
 mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
 # create new sources.list
-wget -nv -r https://raw.github.com/paraschas/debian-desktop-setup/master/sources.list
+wget -N https://raw.github.com/paraschas/debian-desktop-setup/master/sources.list
 mv -v sources.list /etc/apt/
 
 # resynchronize the package index files

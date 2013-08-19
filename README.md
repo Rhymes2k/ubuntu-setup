@@ -9,5 +9,5 @@ run as root [TODO drop usage of root account]
 ```sh
 cd $HOME
 
-wget -nv -r https://raw.github.com/paraschas/debian-desktop-setup/master/manual-setup.sh && chmod +x manual-setup.sh && ./manual-setup.sh && rm -v manual-setup.sh
+wget -N https://raw.github.com/paraschas/debian-desktop-setup/master/manual-setup.sh && chmod +x manual-setup.sh && ./manual-setup.sh && rm -v manual-setup.sh
 ```
