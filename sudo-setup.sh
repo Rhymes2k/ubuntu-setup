@@ -31,6 +31,7 @@ while true; do
         # http://stackoverflow.com/questions/12375722/how-do-i-test-in-one-line-if-command-output-contains-a-certain-string
         if [[ $(groups $USERNAME) == *sudo* ]]; then
             echo "user \"$USERNAME\" already belongs to the group sudo"
+            #SUCCESS=1;
             break
         else
             # add the user to the group sudo
@@ -38,6 +39,7 @@ while true; do
             adduser "$USERNAME" sudo
             if [ $? == 0 ]; then
                 echo "the user \"$USERNAME\" was added to the group sudo"
+                #SUCCESS=1;
             else
                 echo "an error occurred while adding the user \"$USERNAME\" to the group sudo"
             fi
@@ -47,6 +49,32 @@ while true; do
         echo "the user \"$USERNAME\" doesn't exist"
     fi
 done
+
+### don't require password on sudo
+# TODO this doesn't cover all cases
+#while [ $SUCCESS ]; do
+#    echo ""
+#    read -p "do you want to use sudo without entering a password? (y/n): " PASSWORDLESS
+#    case $PASSWORDLESS in
+#        [Yy]* )
+#            echo "original entry for user $USERNAME in sudoers file:"
+#            cat /etc/sudoers | grep $USERNAME
+#            sed -i "s/$USERNAME\tALL=(ALL:ALL) ALL$/$USERNAME\tALL=(ALL:ALL) NOPASSWD: ALL/" /etc/sudoers
+#            echo "updated entry:"
+#            cat /etc/sudoers | grep $USERNAME
+#            break
+#            ;;
+#        [Nn]* )
+#            break
+#            ;;
+#        * )
+#            echo "please answer \"y\" for yes or \"n\" for no"
+#            ;;
+#    esac
+#done
+
+### don't require password on sudo
+#sed -i 's/$USERNAME\tALL=(ALL:ALL) ALL$/$USERNAME\tALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
 ### alternative method
 # add the user dp to the sudoers file
