@@ -7,12 +7,18 @@
 
 cd $HOME
 
+# store the username
+SCRIPT_USER=$USER
+
 # TODO this should only run if the script is run directly
 # resynchronize the package index files
 #sudo apt-get update
 #sudo apt-get -q update
 # install the newest versions of all packages currently installed on the system
 #sudo apt-get upgrade -y
+
+# install ssh
+sudo apt-get install -y ssh
 
 # install git
 sudo apt-get install -y git
@@ -68,5 +74,5 @@ ln -s -f dotfiles/.tmux.conf .
 ### create /data/ directory, link to /d/
 cd /
 sudo mkdir -v data
-sudo chown -v ubuntu:ubuntu data
+sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
 sudo ln -v -s /data /d
