@@ -100,12 +100,12 @@ while true; do
 done
 
 ### root customization
+sudo mv -iv /root/dotfiles /root/dotfiles.backup
+sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
 sudo mv -iv /root/.bashrc /root/.bashrc.backup
 sudo ln -s -f dotfiles/.bashrc /root/
-#sudo mv -iv /root/.bashrc_custom /root/.bashrc_custom.backup
-#sudo cp -iv dotfiles/.bashrc_custom /root/
 sudo mv -iv /root/.vim /root/.vim.backup
-sudo ln -s -f dotfiles/.vim /root/
+sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
 sudo mv -iv /root/.vimrc /root/.vimrc.backup
 sudo ln -s -f dotfiles/.vimrc /root/
 ### /root customization
