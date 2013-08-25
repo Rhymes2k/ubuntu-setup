@@ -40,6 +40,9 @@ fi
 
 git clone https://github.com/paraschas/dotfiles.git
 
+if [ -f .bashrc ]; then
+    mv -iv .bashrc .bashrc.backup
+fi
 if [ -f .bashrc_custom ]; then
     mv -iv .bashrc_custom .bashrc_custom.backup
 fi
@@ -95,3 +98,14 @@ while true; do
             ;;
     esac
 done
+
+### root customization
+sudo mv -iv /root/.bashrc /root/.bashrc.backup
+sudo ln -s -f dotfiles/.bashrc /root/
+#sudo mv -iv /root/.bashrc_custom /root/.bashrc_custom.backup
+#sudo cp -iv dotfiles/.bashrc_custom /root/
+sudo mv -iv /root/.vim /root/.vim.backup
+sudo ln -s -f dotfiles/.vim /root/
+sudo mv -iv /root/.vimrc /root/.vimrc.backup
+sudo ln -s -f dotfiles/.vimrc /root/
+### /root customization
