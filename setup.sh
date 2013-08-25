@@ -99,11 +99,31 @@ while true; do
     esac
 done
 
+### Node.js
+setup_node() {
+    # install nvm: node-version manager
+    # https://github.com/creationix/nvm
+    curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+
+    # load nvm
+    source $HOME/.nvm/nvm.sh
+    # install and use the latest 0.10.x Node version
+    nvm install 0.10
+    nvm use 0.10
+
+    # install jshint to allow checking of JavaScript code in vim
+    # http://jshint.com/
+    npm install -g jshint
+
+    # install rlwrap to provide libreadline features with node
+    # http://nodejs.org/api/repl.html#repl_repl
+    sudo apt-get install -y rlwrap
+}
 
 while true; do
     echo ""
-    read -p "do you want to setup Node.js development? (y/n): " SETUP_NODE
-    case $SETUP_NODE in
+    read -p "do you want to setup Node.js development? (y/n): " SETUP_NODE_DEV
+    case $SETUP_NODE_DEV in
         [Yy]* )
             setup_node
             break
@@ -116,28 +136,6 @@ while true; do
             ;;
     esac
 done
-
-### Node.js
-setup_node() {
-    # install nvm: node-version manager
-    # https://github.com/creationix/nvm
-    curl https://raw.github.com/creationix/nvm/master/install.sh | sh
-
-    # load nvm and install latest production node
-    source $HOME/.nvm/nvm.sh
-    # instead of "nvm install v0.10.15" and "nvm use v0.10.15" to install
-    # and use the latest 0.10.x version
-    nvm install 0.10
-    nvm use 0.10
-
-    # install jshint to allow checking of JavaScript code in vim
-    # http://jshint.com/
-    npm install -g jshint
-
-    # install rlwrap to provide libreadline features with node
-    # http://nodejs.org/api/repl.html#repl_repl
-    sudo apt-get install -y rlwrap
-}
 ### /Node.js
 
 ### install Heroku toolbelt
