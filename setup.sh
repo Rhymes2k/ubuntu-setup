@@ -99,6 +99,51 @@ while true; do
     esac
 done
 
+
+while true; do
+    echo ""
+    read -p "do you want to setup Node.js development? (y/n): " SETUP_NODE
+    case $SETUP_NODE in
+        [Yy]* )
+            setup_node
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+
+### Node.js
+setup_node() {
+    # install nvm: node-version manager
+    # https://github.com/creationix/nvm
+    curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+
+    # load nvm and install latest production node
+    source $HOME/.nvm/nvm.sh
+    # instead of "nvm install v0.10.15" and "nvm use v0.10.15" to install
+    # and use the latest 0.10.x version
+    nvm install 0.10
+    nvm use 0.10
+
+    # install jshint to allow checking of JavaScript code in vim
+    # http://jshint.com/
+    npm install -g jshint
+
+    # install rlwrap to provide libreadline features with node
+    # http://nodejs.org/api/repl.html#repl_repl
+    sudo apt-get install -y rlwrap
+}
+### /Node.js
+
+### install Heroku toolbelt
+# https://toolbelt.heroku.com/debian
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
 ### root customization
 sudo mv -iv /root/dotfiles /root/dotfiles.backup
 sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
