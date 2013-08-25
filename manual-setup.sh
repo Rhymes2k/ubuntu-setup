@@ -3,7 +3,7 @@
 # manual-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# a shell script run manually to bootstrap a Debian 7 desktop system.
+# a shell script run manually to bootstrap a Debian 7 desktop.
 # a more extensive setup script is downloaded with git clone and
 # automatically run afterwards.
 

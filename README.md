@@ -1,4 +1,4 @@
-devops setup of a Debian 7 (Wheezy) desktop system
+devops setup of a Debian 7 (Wheezy) desktop
 
 run as root to setup sudo for the specified user
 ```sh
