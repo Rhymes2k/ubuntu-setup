@@ -49,12 +49,16 @@ fi
 if [ -f .gitconfig ]; then
     mv -iv .gitconfig .gitconfig.backup
 fi
+if [ -f .vimperatorrc ]; then
+    mv -iv .vimperatorrc .vimperatorrc.backup
+fi
 
 ln -s -f dotfiles/.bashrc .
 ln -s -f dotfiles/.bash_profile .
 cp -iv dotfiles/.bashrc_custom .
 ln -s -f dotfiles/.gitignore .
 cp -iv dotfiles/.gitconfig .
+ln -s -f dotfiles/.vimperatorrc .
 ### /dotfiles
 
 ### Vim
