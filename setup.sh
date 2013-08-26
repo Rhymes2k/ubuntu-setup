@@ -91,6 +91,7 @@ while true; do
     case $SETUP_DEV_TOOLS in
         [Yy]* )
             sudo apt-get install module-assistant
+            # install linux headers, build-essential, and other packages
             sudo m-a prepare
             break
             ;;
@@ -156,3 +157,59 @@ sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
 sudo mv -iv /root/.vimrc /root/.vimrc.backup
 sudo ln -s -f dotfiles/.vimrc /root/
 ### /root customization
+
+### install gdevilspie
+while true; do
+    echo ""
+    read -p "do you want to install gdevilspie? (y/n): " INSTALL_GDEVILSPIE
+    case $INSTALL_GDEVILSPIE in
+        [Yy]* )
+            sudo apt-get install gdevilspie
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+
+### install parcellite
+while true; do
+    echo ""
+    read -p "do you want to install parcellite? (y/n): " INSTALL_PARCELLITE
+    case $INSTALL_PARCELLITE in
+        [Yy]* )
+            sudo apt-get install parcellite
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+
+### install keepassx
+while true; do
+    echo ""
+    read -p "do you want to install keepassx? (y/n): " INSTALL_KEEPASSX
+    case $INSTALL_KEEPASSX in
+        [Yy]* )
+            sudo apt-get install keepassx
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+
+echo "devops setup concluded successfully"
