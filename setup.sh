@@ -212,4 +212,5 @@ while true; do
     esac
 done
 
+echo ""
 echo "devops setup concluded successfully"
