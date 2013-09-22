@@ -7,6 +7,7 @@
 
 ### install sudo
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
+# TODO there might be a bug here. verify that the conditional works.
 if [ ! command -v sudo >/dev/null 2>&1 ]; then
     #apt-get install -y sudo
     apt-get install sudo
