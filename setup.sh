@@ -3,7 +3,7 @@
 # setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# script to configure a Debian 7 desktop
+# script to configure a Debian 7 system
 
 cd $HOME
 
