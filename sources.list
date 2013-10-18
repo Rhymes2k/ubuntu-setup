@@ -1,12 +1,14 @@
 # sources.list
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# using mirror for Germany
-
-### Debian main repository
+### main repository
 deb http://ftp.de.debian.org/debian/ wheezy main contrib non-free
 deb-src http://ftp.de.debian.org/debian/ wheezy main contrib non-free
 
-### Debian update repository
+### security
 deb http://security.debian.org/ wheezy/updates main contrib non-free
 deb-src http://security.debian.org/ wheezy/updates main contrib non-free
+
+### updates
+deb http://ftp.debian.org/debian/ wheezy-updates main contrib non-free
+deb-src http://ftp.debian.org/debian/ wheezy-updates main contrib non-free
