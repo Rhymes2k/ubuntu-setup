@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# root-setup.sh
+# sudo-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
 # run as root to setup sudo for the specified user
 
 ### install sudo
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
-# TODO there might be a bug here. verify that the conditional works.
-if [ ! command -v sudo >/dev/null 2>&1 ]; then
+if ! command -v sudo &> /dev/null; then
     #apt-get install -y sudo
     apt-get install sudo
 fi
@@ -28,7 +27,7 @@ while true; do
         echo "read the source file for an alternative method to setup sudo for a user"
         break
     # http://superuser.com/questions/336275/find-out-if-user-name-exists
-    elif id -u $USERNAME >/dev/null 2>&1; then
+    elif id -u $USERNAME &> /dev/null; then
         # http://stackoverflow.com/questions/12375722/how-do-i-test-in-one-line-if-command-output-contains-a-certain-string
         if [[ $(groups $USERNAME) == *sudo* ]]; then
             echo "user \"$USERNAME\" already belongs to the group sudo"
@@ -46,7 +45,7 @@ while true; do
             fi
             break
         fi
-    else 
+    else
         echo "the user \"$USERNAME\" doesn't exist"
     fi
 done
