@@ -40,7 +40,7 @@ update_and_upgrade() {
     # resynchronize the package index files
     sudo apt-get update
     # install the newest versions of all packages currently installed on the system
-    sudo apt-get upgrade -y
+    sudo apt-get upgrade
 }
 ### option to run apt-get update and apt-get upgrade
 while true; do
