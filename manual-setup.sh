@@ -7,6 +7,13 @@
 # a more extensive setup script is downloaded with git clone and
 # automatically run afterwards.
 
+### verify that the machine is running Debian
+# http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
+if ! command -v dpkg &> /dev/null; then
+    echo "this script is meant to be run on a Debian machine"
+    exit 1
+fi
+
 replace_sources_list() {
     # backup previous sources.list
     sudo mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
