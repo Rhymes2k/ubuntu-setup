@@ -227,3 +227,8 @@ done
 
 echo ""
 echo "Debian setup successful"
+
+# TODO
+# create $HOME/repositories/ directory
+# git clone z in it
+# create a symlink from /root/repositories/ to $HOME/repositories/
