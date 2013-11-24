@@ -3,7 +3,7 @@
 # setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# script to configure a Debian 7 system
+# script to setup a Debian 7 system
 
 cd $HOME
 
@@ -14,7 +14,7 @@ SCRIPT_USER=$USER
 # resynchronize the package index files
 #sudo apt-get update
 #sudo apt-get -q update
-# install the newest versions of all packages currently installed on the system
+# install the newest versions of all packages currently installed on the machine
 #sudo apt-get upgrade -y
 
 # install ssh
