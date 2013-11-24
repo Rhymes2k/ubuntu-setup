@@ -7,18 +7,52 @@
 # a more extensive setup script is downloaded with git clone and
 # automatically run afterwards.
 
-### sources.list
-# backup previous sources.list
-sudo mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
-# create new sources.list
-wget -N https://raw.github.com/paraschas/debian-setup/master/sources.list
-sudo mv -v sources.list /etc/apt/
+replace_sources_list() {
+    # backup previous sources.list
+    sudo mv -v /etc/apt/sources.list /etc/apt/sources.list.backup
+    # create new sources.list
+    wget -N https://raw.github.com/paraschas/debian-setup/master/sources.list
+    sudo mv -v sources.list /etc/apt/
+}
 
-# resynchronize the package index files
-#sudo apt-get -q update
-sudo apt-get update
-# install the newest versions of all packages currently installed on the system
-sudo apt-get upgrade -y
+### option to update sources.list
+while true; do
+    read -e -p "Do you want to replace the sources.list? (y/n): " REPLACE_SOURCES_LIST_ANSWER
+    case $REPLACE_SOURCES_LIST_ANSWER in
+        [Yy]* )
+            replace_sources_list
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+
+update_and_upgrade() {
+    # resynchronize the package index files
+    sudo apt-get update
+    # install the newest versions of all packages currently installed on the system
+    sudo apt-get upgrade -y
+}
+
+### option to run apt-get update and apt-get upgrade
+while true; do
+    read -e -p "Do you want to resynchronize the package index files and install the newest versions of all packages currently installed on the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
+    case $UPDATE_AND_UPGRADE_ANSWER in
+        [Yy]* )
+            update_and_upgrade
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
 
 # install git
 sudo apt-get install -y git
