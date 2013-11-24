@@ -3,19 +3,34 @@
 # setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# script to setup a Debian 7 system
+# setup a Debian 7 system
+
+update_and_upgrade() {
+    # resynchronize the package index files
+    sudo apt-get update
+    # install the newest versions of all packages currently installed on the system
+    sudo apt-get upgrade -y
+}
+### option to run apt-get update and apt-get upgrade
+while true; do
+    read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
+    case $UPDATE_AND_UPGRADE_ANSWER in
+        [Yy]* )
+            update_and_upgrade
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
 
 cd $HOME
 
 # store the username
 SCRIPT_USER=$USER
-
-# TODO this should only run if the script is run directly
-# resynchronize the package index files
-#sudo apt-get update
-#sudo apt-get -q update
-# install the newest versions of all packages currently installed on the machine
-#sudo apt-get upgrade -y
 
 # install ssh
 sudo apt-get install -y ssh
@@ -90,10 +105,9 @@ while true; do
     read -p "do you want to setup some development tools? (y/n): " SETUP_DEV_TOOLS
     case $SETUP_DEV_TOOLS in
         [Yy]* )
-            sudo apt-get install module-assistant
             # install linux headers, build-essential, and other packages
+            sudo apt-get install module-assistant
             sudo m-a prepare
-            break
             ;;
         [Nn]* )
             break
@@ -124,14 +138,12 @@ setup_node() {
     # http://nodejs.org/api/repl.html#repl_repl
     sudo apt-get install -y rlwrap
 }
-
 while true; do
     echo ""
     read -p "do you want to setup Node.js development? (y/n): " SETUP_NODE_DEV
     case $SETUP_NODE_DEV in
         [Yy]* )
             setup_node
-            break
             ;;
         [Nn]* )
             break
@@ -143,9 +155,27 @@ while true; do
 done
 ### /Node.js
 
-### install Heroku toolbelt
-# https://toolbelt.heroku.com/debian
-wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+### Heroku toolbelt
+heroku_toolbelt() {
+    # https://toolbelt.heroku.com/debian
+    wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+}
+while true; do
+    echo ""
+    read -p "do you want to install Heroku toolbelt? (y/n): " HEROKU_TOOLBELT_ANSWER
+    case $HEROKU_TOOLBELT_ANSWER in
+        [Yy]* )
+            heroku_toolbelt
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+### /Heroku toolbelt
 
 ### root customization
 sudo mv -iv /root/dotfiles /root/dotfiles.backup
@@ -158,42 +188,6 @@ sudo mv -iv /root/.vimrc /root/.vimrc.backup
 sudo ln -s -f dotfiles/.vimrc /root/
 ### /root customization
 
-### install gdevilspie
-while true; do
-    echo ""
-    read -p "do you want to install gdevilspie? (y/n): " INSTALL_GDEVILSPIE
-    case $INSTALL_GDEVILSPIE in
-        [Yy]* )
-            sudo apt-get install gdevilspie
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-
-### install parcellite
-while true; do
-    echo ""
-    read -p "do you want to install parcellite? (y/n): " INSTALL_PARCELLITE
-    case $INSTALL_PARCELLITE in
-        [Yy]* )
-            sudo apt-get install parcellite
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-
 ### install keepassx
 while true; do
     echo ""
@@ -201,7 +195,6 @@ while true; do
     case $INSTALL_KEEPASSX in
         [Yy]* )
             sudo apt-get install keepassx
-            break
             ;;
         [Nn]* )
             break
@@ -213,4 +206,4 @@ while true; do
 done
 
 echo ""
-echo "devops setup concluded successfully"
+echo "Debian setup successful"

@@ -3,9 +3,8 @@
 # manual-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# a shell script run manually to bootstrap a Debian 7 system.
-# a more extensive setup script is downloaded with git clone and
-# automatically run afterwards.
+# bootstrap a Debian 7 system
+# A more extensive setup script is downloaded with git and run automatically.
 
 ### verify that the machine is running Debian
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
@@ -21,7 +20,6 @@ replace_sources_list() {
     wget -N https://raw.github.com/paraschas/debian-setup/master/sources.list
     sudo mv -v sources.list /etc/apt/
 }
-
 ### option to update sources.list
 while true; do
     read -e -p "Do you want to replace the sources.list? (y/n): " REPLACE_SOURCES_LIST_ANSWER
@@ -44,10 +42,9 @@ update_and_upgrade() {
     # install the newest versions of all packages currently installed on the system
     sudo apt-get upgrade -y
 }
-
 ### option to run apt-get update and apt-get upgrade
 while true; do
-    read -e -p "Do you want to resynchronize the package index files and install the newest versions of all packages currently installed on the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
+    read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
             update_and_upgrade
