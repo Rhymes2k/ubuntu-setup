@@ -1,14 +1,14 @@
 # sources.list
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-### main repository
+# main repository
 deb http://ftp.de.debian.org/debian/ wheezy main contrib non-free
 deb-src http://ftp.de.debian.org/debian/ wheezy main contrib non-free
 
-### security
+# security
 deb http://security.debian.org/ wheezy/updates main contrib non-free
 deb-src http://security.debian.org/ wheezy/updates main contrib non-free
 
-### updates
+# updates
 deb http://ftp.debian.org/debian/ wheezy-updates main contrib non-free
 deb-src http://ftp.debian.org/debian/ wheezy-updates main contrib non-free
