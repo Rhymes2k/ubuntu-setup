@@ -46,7 +46,21 @@ sudo apt-get install -y tree
 
 ### Fail2ban
 # http://www.fail2ban.org/
-sudo apt-get install -y fail2ban
+while true; do
+    echo ""
+    read -p "do you want to install Fail2ban? (y/n): " INSTALL_FAIL2BAN
+    case $INSTALL_FAIL2BAN in
+        [Yy]* )
+            sudo apt-get install fail2ban
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
 
 ### dotfiles
 if [ -d dotfiles ]; then
