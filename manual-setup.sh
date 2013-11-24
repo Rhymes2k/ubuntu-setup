@@ -26,6 +26,7 @@ while true; do
     case $REPLACE_SOURCES_LIST_ANSWER in
         [Yy]* )
             replace_sources_list
+            break
             ;;
         [Nn]* )
             break
@@ -48,6 +49,7 @@ while true; do
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
             update_and_upgrade
+            break
             ;;
         [Nn]* )
             break

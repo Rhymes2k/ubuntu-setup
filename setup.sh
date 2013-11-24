@@ -17,6 +17,7 @@ while true; do
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
             update_and_upgrade
+            break
             ;;
         [Nn]* )
             break
@@ -52,6 +53,7 @@ while true; do
     case $INSTALL_FAIL2BAN in
         [Yy]* )
             sudo apt-get install fail2ban
+            break
             ;;
         [Nn]* )
             break
@@ -122,6 +124,7 @@ while true; do
             # install linux headers, build-essential, and other packages
             sudo apt-get install module-assistant
             sudo m-a prepare
+            break
             ;;
         [Nn]* )
             break
@@ -158,6 +161,7 @@ while true; do
     case $SETUP_NODE_DEV in
         [Yy]* )
             setup_node
+            break
             ;;
         [Nn]* )
             break
@@ -180,6 +184,7 @@ while true; do
     case $HEROKU_TOOLBELT_ANSWER in
         [Yy]* )
             heroku_toolbelt
+            break
             ;;
         [Nn]* )
             break
@@ -209,6 +214,7 @@ while true; do
     case $INSTALL_KEEPASSX in
         [Yy]* )
             sudo apt-get install keepassx
+            break
             ;;
         [Nn]* )
             break
