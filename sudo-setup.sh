@@ -5,14 +5,13 @@
 
 # run as root to setup sudo for the specified user
 
+# TODO the code needs review
+
 ### install sudo
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
 if ! command -v sudo &> /dev/null; then
-    #apt-get install -y sudo
-    apt-get install sudo
+    apt-get install -y sudo
 fi
-
-# TODO the code needs review
 
 ### add the specified user to the group sudo
 echo ""
