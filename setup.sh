@@ -198,14 +198,32 @@ done
 ### /Heroku toolbelt
 
 ### root customization
-sudo mv -iv /root/dotfiles /root/dotfiles.backup
-sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
-sudo mv -iv /root/.bashrc /root/.bashrc.backup
-sudo ln -s -f dotfiles/.bashrc /root/
-sudo mv -iv /root/.vim /root/.vim.backup
-sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
-sudo mv -iv /root/.vimrc /root/.vimrc.backup
-sudo ln -s -f dotfiles/.vimrc /root/
+root_customization() {
+    sudo mv -iv /root/dotfiles /root/dotfiles.backup
+    sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
+    sudo mv -iv /root/.bashrc /root/.bashrc.backup
+    sudo ln -s -f dotfiles/.bashrc /root/
+    sudo mv -iv /root/.vim /root/.vim.backup
+    sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
+    sudo mv -iv /root/.vimrc /root/.vimrc.backup
+    sudo ln -s -f dotfiles/.vimrc /root/
+}
+while true; do
+    echo ""
+    read -p "do you want to install customizations for the root account? (y/n): " ROOT_CUSTOMIZATION_ANSWER
+    case $ROOT_CUSTOMIZATION_ANSWER in
+        [Yy]* )
+            root_customization
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
 ### /root customization
 
 echo ""
