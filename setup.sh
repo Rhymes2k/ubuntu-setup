@@ -137,6 +137,33 @@ while true; do
 done
 ### / /data/ directory
 
+### setup z
+# https://github.com/rupa/z
+setup_z() {
+    cd
+    # create $HOME/repositories/ directory
+    mkdir -v repositories
+    cd repositories
+    git clone https://github.com/rupa/z.git
+}
+while true; do
+    echo ""
+    read -p "do you want to setup z for Bash? (y/n): " SETUP_Z_ANSWER
+    case $SETUP_Z_ANSWER in
+        [Yy]* )
+            setup_z
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+### /setup z
+
 ### setup development tools
 while true; do
     echo ""
@@ -228,6 +255,8 @@ root_customization() {
     sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
     sudo mv -iv /root/.vimrc /root/.vimrc.backup
     sudo ln -s -f dotfiles/.vimrc /root/
+    # TODO
+    # create a symlink from /root/repositories/ to $HOME/repositories/
 }
 while true; do
     echo ""
@@ -249,8 +278,3 @@ done
 
 echo ""
 echo "Debian setup successful"
-
-# TODO
-# create $HOME/repositories/ directory
-# git clone z in it
-# create a symlink from /root/repositories/ to $HOME/repositories/
