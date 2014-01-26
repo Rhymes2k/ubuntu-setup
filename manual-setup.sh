@@ -6,6 +6,7 @@
 # bootstrap a Debian 7 system
 # A more extensive setup script is downloaded with git and run automatically.
 
+
 ### verify that the machine is running Debian
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
 if ! command -v dpkg &> /dev/null; then

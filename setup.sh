@@ -5,6 +5,7 @@
 
 # setup a Debian 7 system
 
+
 update_and_upgrade() {
     # resynchronize the package index files
     sudo apt-get update
