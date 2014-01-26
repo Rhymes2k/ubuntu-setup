@@ -110,11 +110,32 @@ vim +BundleInstall +qall
 sudo apt-get install -y tmux
 ln -s -f dotfiles/.tmux.conf .
 
-### create /data/ directory, link to /d/
-cd /
-sudo mkdir -v data
-sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
-sudo ln -v -s /data /d
+### /data/ directory
+data_directory() {
+    cd /
+    # create /data/ directory
+    sudo mkdir -v data
+    sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
+    # link /data/ directory to /d/
+    sudo ln -v -s /data /d
+}
+while true; do
+    echo ""
+    read -p "do you want to create the /data/ directory? (y/n): " DATA_DIRECTORY_ANSWER
+    case $DATA_DIRECTORY_ANSWER in
+        [Yy]* )
+            data_directory
+            break
+            ;;
+        [Nn]* )
+            break
+            ;;
+        * )
+            echo "please enter \"y\" for yes or \"n\" for no"
+            ;;
+    esac
+done
+### / /data/ directory
 
 ### setup development tools
 while true; do
