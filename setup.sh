@@ -208,24 +208,6 @@ sudo mv -iv /root/.vimrc /root/.vimrc.backup
 sudo ln -s -f dotfiles/.vimrc /root/
 ### /root customization
 
-### install keepassx
-while true; do
-    echo ""
-    read -p "do you want to install keepassx? (y/n): " INSTALL_KEEPASSX
-    case $INSTALL_KEEPASSX in
-        [Yy]* )
-            sudo apt-get install keepassx
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-
 echo ""
 echo "Debian setup successful"
 
