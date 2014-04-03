@@ -91,6 +91,7 @@ cp -iv dotfiles/.bashrc_custom .
 ln -s -f dotfiles/.gitignore .
 cp -iv dotfiles/.gitconfig .
 ln -s -f dotfiles/.vimperatorrc .
+ln -s -f dotfiles/.inputrc .
 ### /dotfiles
 
 ### Vim
