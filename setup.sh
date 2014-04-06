@@ -3,7 +3,7 @@
 # setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# setup a Debian 7 system
+# setup an Ubuntu 12.04.x LTS system
 
 
 update_and_upgrade() {
@@ -35,13 +35,13 @@ cd $HOME
 SCRIPT_USER=$USER
 
 # install ssh
-sudo apt-get install -y ssh
+#sudo apt-get install -y ssh
 
 # install git
 sudo apt-get install -y git
 
 # install curl
-sudo apt-get install -y curl
+#sudo apt-get install -y curl
 
 # install tree
 sudo apt-get install -y tree
@@ -278,4 +278,4 @@ done
 ### /root customization
 
 echo ""
-echo "Debian setup successful"
+echo "Ubuntu customization successful"
