@@ -46,6 +46,7 @@ sudo apt-get install -y git
 # install tree
 sudo apt-get install -y tree
 
+
 ### Fail2ban
 # http://www.fail2ban.org/
 while true; do
@@ -64,6 +65,7 @@ while true; do
             ;;
     esac
 done
+
 
 ### dotfiles
 if [ -d dotfiles ]; then
@@ -94,22 +96,29 @@ ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
 ### /dotfiles
 
+
 ### Vim
 sudo apt-get install -y vim
+
 # backup
 if [ -d .vim ]; then
     mv -iv .vim .vim.backup
 fi
 ln -s -f dotfiles/.vimrc .
+
 # setup Vundle
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+# https://github.com/gmarik/Vundle.vim
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
 # install configured bundles
 vim +BundleInstall +qall
 ### /Vim
 
+
 ### tmux
 sudo apt-get install -y tmux
 ln -s -f dotfiles/.tmux.conf .
+
 
 ### /data/ directory
 data_directory() {
@@ -138,6 +147,7 @@ while true; do
 done
 ### / /data/ directory
 
+
 ### setup z
 # https://github.com/rupa/z
 setup_z() {
@@ -165,6 +175,7 @@ while true; do
 done
 ### /setup z
 
+
 ### setup development tools
 while true; do
     echo ""
@@ -184,6 +195,7 @@ while true; do
             ;;
     esac
 done
+
 
 ### Node.js
 setup_node() {
@@ -223,6 +235,7 @@ while true; do
 done
 ### /Node.js
 
+
 ### Heroku toolbelt
 heroku_toolbelt() {
     # https://toolbelt.heroku.com/debian
@@ -245,6 +258,7 @@ while true; do
     esac
 done
 ### /Heroku toolbelt
+
 
 ### root customization
 root_customization() {
@@ -276,6 +290,7 @@ while true; do
     esac
 done
 ### /root customization
+
 
 echo ""
 echo "Ubuntu customization successful"
