@@ -6,6 +6,12 @@
 # configure an Ubuntu 14.04 LTS system
 
 
+# TODO
+# separate code for a desktop and a server system
+#     packages
+#     Vim plugins
+
+
 # verify that the computer is running a Debian derivative
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
 if ! command -v dpkg &> /dev/null; then
@@ -58,9 +64,6 @@ git clone https://github.com/paraschas/ubuntu-setup.git
 # install ssh
 sudo apt-get install -y ssh
 
-# install git
-sudo apt-get install -y git
-
 # install curl
 sudo apt-get install -y curl
 
@@ -75,7 +78,7 @@ while true; do
     read -p "do you want to install Fail2ban? (y/n): " INSTALL_FAIL2BAN
     case $INSTALL_FAIL2BAN in
         [Yy]* )
-            sudo apt-get install fail2ban
+            sudo apt-get install -y fail2ban
             break
             ;;
         [Nn]* )
@@ -92,6 +95,8 @@ done
 if [ -d dotfiles ]; then
     mv -iv dotfiles dotfiles.backup
 fi
+# TODO
+# replace "if then" checks with the following format:
 #[[ -d dotfiles ]] && mv -iv dotfiles dotfiles.backup
 
 git clone https://github.com/paraschas/dotfiles.git
