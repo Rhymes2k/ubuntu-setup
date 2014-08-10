@@ -3,16 +3,30 @@
 # setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# setup an Ubuntu 14.04.x LTS system
+# configure an Ubuntu 14.04 LTS system
 
 
+# verify that the computer is running a Debian derivative
+# http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
+if ! command -v dpkg &> /dev/null; then
+    echo "this script is meant to be run on an Ubuntu system"
+    exit 1
+fi
+
+
+# store the username
+SCRIPT_USER=$USER
+
+
+# option to run apt-get update and apt-get upgrade
 update_and_upgrade() {
     # resynchronize the package index files
     sudo apt-get update
+
     # install the newest versions of all packages currently installed on the system
     sudo apt-get upgrade
 }
-### option to run apt-get update and apt-get upgrade
+
 while true; do
     read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
     case $UPDATE_AND_UPGRADE_ANSWER in
@@ -29,25 +43,32 @@ while true; do
     esac
 done
 
+
 cd $HOME
 
-# store the username
-SCRIPT_USER=$USER
+
+# install git
+sudo apt-get install -y git
+
+# download the repository for local access
+[[ -d ubuntu-setup ]] && mv -iv ubuntu-setup ubuntu-setup.backup
+git clone https://github.com/paraschas/ubuntu-setup.git
+
 
 # install ssh
-#sudo apt-get install -y ssh
+sudo apt-get install -y ssh
 
 # install git
 sudo apt-get install -y git
 
 # install curl
-#sudo apt-get install -y curl
+sudo apt-get install -y curl
 
 # install tree
 sudo apt-get install -y tree
 
 
-### Fail2ban
+# Fail2ban
 # http://www.fail2ban.org/
 while true; do
     echo ""
@@ -67,10 +88,11 @@ while true; do
 done
 
 
-### dotfiles
+# dotfiles
 if [ -d dotfiles ]; then
     mv -iv dotfiles dotfiles.backup
 fi
+#[[ -d dotfiles ]] && mv -iv dotfiles dotfiles.backup
 
 git clone https://github.com/paraschas/dotfiles.git
 
@@ -94,10 +116,10 @@ ln -s -f dotfiles/.gitignore .
 cp -iv dotfiles/.gitconfig .
 ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
-### /dotfiles
+# /dotfiles
 
 
-### Vim
+# Vim
 sudo apt-get install -y vim
 
 # backup
@@ -112,26 +134,26 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # install configured bundles
 vim +BundleInstall +qall
-### /Vim
+# /Vim
 
 
-### tmux
+# tmux
 sudo apt-get install -y tmux
 ln -s -f dotfiles/.tmux.conf .
 
 
-### /data/ directory
+# /data/ directory
 data_directory() {
     cd /
-    # create /data/ directory
+    # create /data directory
     sudo mkdir -v data
     sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
-    # link /data/ directory to /d/
+    # link /data directory to /d/
     sudo ln -v -s /data /d
 }
 while true; do
     echo ""
-    read -p "do you want to create the /data/ directory? (y/n): " DATA_DIRECTORY_ANSWER
+    read -p "do you want to create the /data directory? (y/n): " DATA_DIRECTORY_ANSWER
     case $DATA_DIRECTORY_ANSWER in
         [Yy]* )
             data_directory
@@ -145,10 +167,10 @@ while true; do
             ;;
     esac
 done
-### / /data/ directory
+# / /data directory
 
 
-### setup z
+# setup z
 # https://github.com/rupa/z
 setup_z() {
     cd
@@ -173,10 +195,10 @@ while true; do
             ;;
     esac
 done
-### /setup z
+# /setup z
 
 
-### setup development tools
+# setup development tools
 while true; do
     echo ""
     read -p "do you want to setup some development tools? (y/n): " SETUP_DEV_TOOLS
@@ -195,10 +217,10 @@ while true; do
             ;;
     esac
 done
-### /setup development tools
+# /setup development tools
 
 
-### root customization
+# root customization
 root_customization() {
     sudo mv -iv /root/dotfiles /root/dotfiles.backup
     sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
@@ -227,7 +249,7 @@ while true; do
             ;;
     esac
 done
-### /root customization
+# /root customization
 
 
 echo ""

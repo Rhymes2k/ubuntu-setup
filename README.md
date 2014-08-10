@@ -1,9 +1,9 @@
-devops setup of an Ubuntu 14.04.x LTS system
+Ubuntu 14.04 LTS configuration
 ===
 
-Automatic configuration of an Ubuntu machine, and installation of my handcrafted dotfiles.
+Configuration of an Ubuntu system, and installation of my dotfiles.
 
-run to setup the system
+run the configuration script:
 ```sh
-wget -N https://github.com/paraschas/ubuntu-setup/raw/master/manual-setup.sh && chmod +x manual-setup.sh && ./manual-setup.sh && rm -v manual-setup.sh
+wget -N https://github.com/paraschas/ubuntu-setup/raw/master/ubuntu-setup.sh && chmod +x ubuntu-setup.sh && ./ubuntu-setup.sh && rm -v ubuntu-setup.sh
 ```
