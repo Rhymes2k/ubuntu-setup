@@ -3,7 +3,7 @@
 # manual-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# bootstrap an Ubuntu 12.04.x LTS system
+# bootstrap an Ubuntu 14.04.x LTS system
 # A more extensive setup script is downloaded with git and run automatically.
 
 
