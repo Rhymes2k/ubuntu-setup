@@ -113,6 +113,12 @@ fi
 if [ -f .vimperatorrc ]; then
     mv -iv .vimperatorrc .vimperatorrc.backup
 fi
+if [ -f .inputrc ]; then
+    mv -iv .inputrc .inputrc.backup
+fi
+if [ -f .ackrc ]; then
+    mv -iv .ackrc .ackrc.backup
+fi
 
 ln -s -f dotfiles/.bashrc .
 ln -s -f dotfiles/.bash_profile .
@@ -121,6 +127,7 @@ ln -s -f dotfiles/.gitignore .
 cp -iv dotfiles/.gitconfig .
 ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
+ln -s -f dotfiles/.ackrc .
 # /dotfiles
 
 
