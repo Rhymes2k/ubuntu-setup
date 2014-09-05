@@ -121,6 +121,7 @@ if [ -f .ackrc ]; then
 fi
 
 ln -s -f dotfiles/.bashrc .
+ln -s -f dotfiles/.bash_aliases .
 ln -s -f dotfiles/.bash_profile .
 cp -iv dotfiles/.bashrc_custom .
 ln -s -f dotfiles/.gitignore .
