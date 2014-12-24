@@ -70,6 +70,9 @@ sudo apt-get install -y curl
 # install tree
 sudo apt-get install -y tree
 
+# install xclip
+sudo apt-get install -y xclip
+
 
 # Fail2ban
 # http://www.fail2ban.org/
