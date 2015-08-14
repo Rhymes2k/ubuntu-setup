@@ -1,15 +1,9 @@
 #!/bin/bash
 
-# setup.sh
+# ubuntu-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
 # configure an Ubuntu 14.04 LTS system
-
-
-# TODO
-# separate code for a desktop and a server system
-#     packages
-#     Vim plugins
 
 
 # verify that the computer is running a Debian derivative
@@ -98,9 +92,6 @@ done
 if [ -d dotfiles ]; then
     mv -iv dotfiles dotfiles.backup
 fi
-# TODO
-# replace "if then" checks with the following format:
-#[[ -d dotfiles ]] && mv -iv dotfiles dotfiles.backup
 
 git clone https://github.com/paraschas/dotfiles.git
 
