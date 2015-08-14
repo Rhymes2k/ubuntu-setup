@@ -136,8 +136,8 @@ fi
 ln -s -f dotfiles/.vimrc .
 
 # setup Vundle
-# https://github.com/gmarik/Vundle.vim
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# https://github.com/VundleVim/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # install configured bundles
 vim +BundleInstall +qall
