@@ -55,17 +55,8 @@ sudo apt-get install -y git
 git clone https://github.com/paraschas/ubuntu-setup.git
 
 
-# install ssh
-sudo apt-get install -y ssh
-
-# install curl
-sudo apt-get install -y curl
-
-# install tree
-sudo apt-get install -y tree
-
-# install xclip
-sudo apt-get install -y xclip
+# install useful packages
+sudo apt-get install -y ssh curl tree xclip
 
 
 # Fail2ban
