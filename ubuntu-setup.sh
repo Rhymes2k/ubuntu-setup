@@ -80,6 +80,7 @@ done
 
 
 # dotfiles
+################################################################################
 if [ -d dotfiles ]; then
     mv -iv dotfiles dotfiles.backup
 fi
@@ -114,10 +115,11 @@ cp -iv dotfiles/.gitconfig .
 ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
 ln -s -f dotfiles/.ackrc .
-# /dotfiles
+################################################################################
 
 
 # Vim
+################################################################################
 sudo apt-get install -y vim
 
 # backup
@@ -132,7 +134,7 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # install configured bundles
 vim +BundleInstall +qall
-# /Vim
+################################################################################
 
 
 # tmux
@@ -141,6 +143,7 @@ ln -s -f dotfiles/.tmux.conf .
 
 
 # /data/ directory
+################################################################################
 data_directory() {
     cd /
     # create /data directory
@@ -165,10 +168,11 @@ while true; do
             ;;
     esac
 done
-# / /data directory
+################################################################################
 
 
 # setup z
+################################################################################
 # https://github.com/rupa/z
 setup_z() {
     cd
@@ -193,10 +197,11 @@ while true; do
             ;;
     esac
 done
-# /setup z
+################################################################################
 
 
 # setup development tools
+################################################################################
 while true; do
     echo ""
     read -p "do you want to setup some development tools? (y/n): " SETUP_DEV_TOOLS
@@ -215,10 +220,11 @@ while true; do
             ;;
     esac
 done
-# /setup development tools
+################################################################################
 
 
 # root customization
+################################################################################
 root_customization() {
     sudo mv -iv /root/dotfiles /root/dotfiles.backup
     sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
@@ -247,7 +253,7 @@ while true; do
             ;;
     esac
 done
-# /root customization
+################################################################################
 
 
 echo ""
