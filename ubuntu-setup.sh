@@ -109,12 +109,15 @@ fi
 ln -s -f dotfiles/.bashrc .
 ln -s -f dotfiles/.bash_aliases .
 ln -s -f dotfiles/.bash_profile .
-cp -iv dotfiles/.bashrc_custom .
 ln -s -f dotfiles/.gitignore .
-cp -iv dotfiles/.gitconfig .
 ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
 ln -s -f dotfiles/.ackrc .
+
+cp -iv dotfiles/.bashrc_custom .
+
+cp -iv dotfiles/.gitconfig .
+echo -e "\n[push]\n    default = simple" >> .gitconfig
 ################################################################################
 
 
