@@ -18,20 +18,33 @@ fi
 SCRIPT_USER=$USER
 
 
-# option to run apt-get update and apt-get upgrade
-update_and_upgrade() {
-    # resynchronize the package index files
-    sudo apt-get update
-
-    # install the newest versions of all packages currently installed on the system
-    sudo apt-get upgrade
+# add the suffix ".backup" to the passed directory or file
+dp_backup() {
+    if [[ $1 == "" ]]; then
+        printf "nothing to backup\n"
+    else
+        if [ -d $1 ] || [ -f $1 ]; then
+            mv -iv $1 $1\.backup
+        fi
+    fi
 }
+
+
+# create a symbolic link of the passed directory or file residing in dotfiles
+dp_link() {
+    if [[ $1 == "" ]]; then
+        printf "nothing to link\n"
+    else
+        ln -s -f dotfiles/$1 .
+    fi
+}
+
 
 while true; do
     read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
-            update_and_upgrade
+            sudo apt-get update && sudo apt-get upgrade
             break
             ;;
         [Nn]* )
@@ -83,43 +96,36 @@ done
 
 # dotfiles
 ################################################################################
-if [ -d dotfiles ]; then
-    mv -iv dotfiles dotfiles.backup
-fi
+link_to_dotfiles() {
+    dp_backup dotfiles
 
-git clone https://github.com/paraschas/dotfiles.git
+    git clone https://github.com/paraschas/dotfiles.git
 
-if [ -f .bashrc ]; then
-    mv -iv .bashrc .bashrc.backup
-fi
-if [ -f .bashrc_custom ]; then
-    mv -iv .bashrc_custom .bashrc_custom.backup
-fi
-if [ -f .gitconfig ]; then
-    mv -iv .gitconfig .gitconfig.backup
-fi
-if [ -f .vimperatorrc ]; then
-    mv -iv .vimperatorrc .vimperatorrc.backup
-fi
-if [ -f .inputrc ]; then
-    mv -iv .inputrc .inputrc.backup
-fi
-if [ -f .ackrc ]; then
-    mv -iv .ackrc .ackrc.backup
-fi
+    dp_backup .bashrc
+    dp_backup .bashrc_custom
+    dp_backup .gitconfig
+    dp_backup .vimperatorrc
+    dp_backup .inputrc
+    dp_backup .ackrc
+    dp_backup .ipython/profile_default/ipython_config.py
 
-ln -s -f dotfiles/.bashrc .
-ln -s -f dotfiles/.bash_aliases .
-ln -s -f dotfiles/.bash_profile .
-ln -s -f dotfiles/.gitignore .
-ln -s -f dotfiles/.vimperatorrc .
-ln -s -f dotfiles/.inputrc .
-ln -s -f dotfiles/.ackrc .
+    dp_link .bashrc
+    dp_link .bash_aliases
+    dp_link .bash_profile
+    dp_link .gitignore
+    dp_link .vimperatorrc
+    dp_link .inputrc
+    dp_link .ackrc
 
-cp -iv dotfiles/.bashrc_custom .
+    # IPython configuration
+    mkdir -p dotfiles/.ipython/profile_default/
+    dp_link .ipython/profile_default/ipython_config.py
 
-cp -iv dotfiles/.gitconfig .
-echo -e "\n[push]\n    default = simple" >> .gitconfig
+    cp -iv dotfiles/.bashrc_custom .
+
+    cp -iv dotfiles/.gitconfig .
+    echo -e "\n[push]\n    default = simple" >> .gitconfig
+}
 ################################################################################
 
 
@@ -127,11 +133,8 @@ echo -e "\n[push]\n    default = simple" >> .gitconfig
 ################################################################################
 sudo apt-get install -y vim
 
-# backup
-if [ -d .vim ]; then
-    mv -iv .vim .vim.backup
-fi
-ln -s -f dotfiles/.vimrc .
+dp_backup .vim
+dp_link .vimrc
 
 # setup Vundle
 # https://github.com/VundleVim/Vundle.vim
@@ -144,7 +147,7 @@ vim +BundleInstall +qall
 
 # tmux
 sudo apt-get install -y tmux
-ln -s -f dotfiles/.tmux.conf .
+dp_link .tmux.conf
 
 
 # /data/ directory
