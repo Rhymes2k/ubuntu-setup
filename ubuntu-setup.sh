@@ -3,7 +3,7 @@
 # ubuntu-setup.sh
 # Dimitrios Paraschas (paraschas@gmail.com)
 
-# configure an Ubuntu 14.04 LTS system
+# configure an Ubuntu or Kubuntu 14.04 LTS system
 
 
 # verify that the computer is running a Debian derivative
@@ -46,6 +46,8 @@ done
 
 cd $HOME
 
+sudo apt-get purge -y klipper
+sudo apt-get install -y parcellite
 
 # install git
 sudo apt-get install -y git
