@@ -107,6 +107,9 @@ fi
 if [ -f .ackrc ]; then
     mv -iv .ackrc .ackrc.backup
 fi
+if [ -f .ipython/profile_default/ipython_config.py ]; then
+    mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
+fi
 
 ln -s -f dotfiles/.bashrc .
 ln -s -f dotfiles/.bash_aliases .
@@ -115,6 +118,8 @@ ln -s -f dotfiles/.gitignore .
 ln -s -f dotfiles/.vimperatorrc .
 ln -s -f dotfiles/.inputrc .
 ln -s -f dotfiles/.ackrc .
+mkdir -p .ipython/profile_default/
+ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 
 cp -iv dotfiles/.bashrc_custom .
 
