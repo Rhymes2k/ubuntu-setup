@@ -53,7 +53,7 @@ vercomp () {
 
 
 while true; do
-    read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
+    read -e -p "Do you want to update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
             # resynchronize the package index files
@@ -74,19 +74,17 @@ done
 
 cd $HOME
 
-sudo apt-get purge -y klipper
-sudo apt-get install -y parcellite
 
-# install git
-sudo apt-get install -y git
+# remove packages
+sudo apt-get purge -y klipper
+
+# install packages
+sudo apt-get install -y curl git parcellite ssh tmux tree vim xclip
+
 
 # download the repository for local access
 [[ -d ubuntu-setup ]] && mv -iv ubuntu-setup ubuntu-setup.backup
 git clone https://github.com/paraschas/ubuntu-setup.git
-
-
-# install useful packages
-sudo apt-get install -y ssh curl tree xclip
 
 
 # Fail2ban
@@ -115,35 +113,32 @@ done
 
 git clone https://github.com/paraschas/dotfiles.git
 
+[[ -f .ackrc ]] && mv -iv .ackrc .ackrc.backup
+[[ -f .bash_aliases ]] && mv -iv .bash_aliases .bash_aliases.backup
+[[ -f .bash_profile ]] && mv -iv .bash_profile .bash_profile.backup
 [[ -f .bashrc ]] && mv -iv .bashrc .bashrc.backup
+[[ -f .inputrc ]] && mv -iv .inputrc .inputrc.backup
+[[ -f .octaverc ]] && mv -iv .octaverc .octaverc.backup
+[[ -f .profile ]] && mv -iv .profile .profile.backup
+[[ -f .vimperatorrc ]] && mv -iv .vimperatorrc .vimperatorrc.backup
+[[ -f .tmux.conf ]] && mv -iv .tmux.conf .tmux.conf.backup
+
+ln -s -f dotfiles/ackrc .ackrc
+ln -s -f dotfiles/bash_aliases .bash_aliases
+ln -s -f dotfiles/bash_profile .bash_profile
+ln -s -f dotfiles/bashrc .bashrc
+ln -s -f dotfiles/inputrc .inputrc
+ln -s -f dotfiles/octaverc .octaverc
+ln -s -f dotfiles/profile .profile
+ln -s -f dotfiles/vimperatorrc .vimperatorrc
+ln -s -f dotfiles/tmux.conf .tmux.conf
 
 [[ -f .bashrc_custom ]] && mv -iv .bashrc_custom .bashrc_custom.backup
 
-[[ -f .gitconfig ]] && mv -iv .gitconfig .gitconfig.backup
-
-[[ -f .vimperatorrc ]] && mv -iv .vimperatorrc .vimperatorrc.backup
-
-[[ -f .inputrc ]] && mv -iv .inputrc .inputrc.backup
-
-[[ -f .ackrc ]] && mv -iv .ackrc .ackrc.backup
-
-if [ -f .ipython/profile_default/ipython_config.py ]; then
-    mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
-fi
-
-ln -s -f dotfiles/ackrc .ackrc
-ln -s -f dotfiles/bashrc .bashrc
-ln -s -f dotfiles/bash_aliases .bash_aliases
-ln -s -f dotfiles/bash_profile .bash_profile
-ln -s -f dotfiles/gitignore .gitignore
-ln -s -f dotfiles/inputrc .inputrc
-ln -s -f dotfiles/vimperatorrc .vimperatorrc
-
-mkdir -p .ipython/profile_default/
-ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
-
 cp -iv dotfiles/bashrc_custom .bashrc_custom
 
+# .gitconfig
+[[ -f .gitconfig ]] && mv -iv .gitconfig .gitconfig.backup
 cp -iv dotfiles/gitconfig .gitconfig
 # TODO
 # when was this version added?
@@ -159,15 +154,23 @@ if [ "$VERCOMP_RESULT" == 0 ] || [ "$VERCOMP_RESULT" == 1 ]; then
     echo "setting push.default in .gitconfig to simple"
     echo -e "\n[push]\n    default = simple" >> .gitconfig
 fi
+
+[[ -f .gitignore ]] && mv -iv .gitignore .gitignore.backup
+ln -s -f dotfiles/data/.gitignore .
+
+# IPython
+if [ -f .ipython/profile_default/ipython_config.py ]; then
+    mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
+fi
+mkdir -p .ipython/profile_default/
+ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 ################################################################################
 
 
 # Vim
 ################################################################################
-sudo apt-get install -y vim
-
-# backup
 [[ -d .vim ]] && mv -iv .vim .vim.backup
+[[ -f .vimrc ]] && mv -iv .vimrc .vimrc.backup
 ln -s -f dotfiles/vimrc .vimrc
 
 # setup Vundle
@@ -177,11 +180,6 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 # install configured bundles
 vim +BundleInstall +qall
 ################################################################################
-
-
-# tmux
-sudo apt-get install -y tmux
-ln -s -f dotfiles/tmux.conf .tmux.conf
 
 
 # /data/ directory
