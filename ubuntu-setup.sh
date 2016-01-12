@@ -18,20 +18,48 @@ fi
 SCRIPT_USER=$USER
 
 
-# option to run apt-get update and apt-get upgrade
-update_and_upgrade() {
-    # resynchronize the package index files
-    sudo apt-get update
-
-    # install the newest versions of all packages currently installed on the system
-    sudo apt-get upgrade
+# compare version numbers
+# http://stackoverflow.com/questions/4023830/bash-how-compare-two-strings-in-version-format
+vercomp () {
+    if [[ $1 == $2 ]]
+    then
+        return 0
+    fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            return 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            return 2
+        fi
+    done
+    return 0
 }
+
 
 while true; do
     read -e -p "Do you want to apt-get update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
     case $UPDATE_AND_UPGRADE_ANSWER in
         [Yy]* )
-            update_and_upgrade
+            # resynchronize the package index files
+            sudo apt-get update
+            # install the newest versions of all packages currently installed on the system
+            sudo apt-get upgrade
             break
             ;;
         [Nn]* )
@@ -83,48 +111,54 @@ done
 
 # dotfiles
 ################################################################################
-if [ -d dotfiles ]; then
-    mv -iv dotfiles dotfiles.backup
-fi
+[[ -d dotfiles ]] && mv -iv dotfiles dotfiles.backup
 
 git clone https://github.com/paraschas/dotfiles.git
 
-if [ -f .bashrc ]; then
-    mv -iv .bashrc .bashrc.backup
-fi
-if [ -f .bashrc_custom ]; then
-    mv -iv .bashrc_custom .bashrc_custom.backup
-fi
-if [ -f .gitconfig ]; then
-    mv -iv .gitconfig .gitconfig.backup
-fi
-if [ -f .vimperatorrc ]; then
-    mv -iv .vimperatorrc .vimperatorrc.backup
-fi
-if [ -f .inputrc ]; then
-    mv -iv .inputrc .inputrc.backup
-fi
-if [ -f .ackrc ]; then
-    mv -iv .ackrc .ackrc.backup
-fi
+[[ -f .bashrc ]] && mv -iv .bashrc .bashrc.backup
+
+[[ -f .bashrc_custom ]] && mv -iv .bashrc_custom .bashrc_custom.backup
+
+[[ -f .gitconfig ]] && mv -iv .gitconfig .gitconfig.backup
+
+[[ -f .vimperatorrc ]] && mv -iv .vimperatorrc .vimperatorrc.backup
+
+[[ -f .inputrc ]] && mv -iv .inputrc .inputrc.backup
+
+[[ -f .ackrc ]] && mv -iv .ackrc .ackrc.backup
+
 if [ -f .ipython/profile_default/ipython_config.py ]; then
     mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
 fi
 
-ln -s -f dotfiles/.bashrc .
-ln -s -f dotfiles/.bash_aliases .
-ln -s -f dotfiles/.bash_profile .
-ln -s -f dotfiles/.gitignore .
-ln -s -f dotfiles/.vimperatorrc .
-ln -s -f dotfiles/.inputrc .
-ln -s -f dotfiles/.ackrc .
+ln -s -f dotfiles/ackrc .ackrc
+ln -s -f dotfiles/bashrc .bashrc
+ln -s -f dotfiles/bash_aliases .bash_aliases
+ln -s -f dotfiles/bash_profile .bash_profile
+ln -s -f dotfiles/gitignore .gitignore
+ln -s -f dotfiles/inputrc .inputrc
+ln -s -f dotfiles/vimperatorrc .vimperatorrc
+
 mkdir -p .ipython/profile_default/
 ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 
-cp -iv dotfiles/.bashrc_custom .
+cp -iv dotfiles/bashrc_custom .bashrc_custom
 
-cp -iv dotfiles/.gitconfig .
-echo -e "\n[push]\n    default = simple" >> .gitconfig
+cp -iv dotfiles/gitconfig .gitconfig
+# TODO
+# when was this version added?
+# new setting added in git version ?
+# get the git version
+GIT_VERSION=`git --version | cut -d " " -f 3`
+#echo $GIT_VERSION
+GIT_BASE_VERSION="1.9.0"
+vercomp $GIT_VERSION $GIT_BASE_VERSION
+VERCOMP_RESULT=$?
+if [ "$VERCOMP_RESULT" == 0 ] || [ "$VERCOMP_RESULT" == 1 ]; then
+    echo "current git version $GIT_VERSION is at least $GIT_BASE_VERSION"
+    echo "setting push.default in .gitconfig to simple"
+    echo -e "\n[push]\n    default = simple" >> .gitconfig
+fi
 ################################################################################
 
 
@@ -133,10 +167,8 @@ echo -e "\n[push]\n    default = simple" >> .gitconfig
 sudo apt-get install -y vim
 
 # backup
-if [ -d .vim ]; then
-    mv -iv .vim .vim.backup
-fi
-ln -s -f dotfiles/.vimrc .
+[[ -d .vim ]] && mv -iv .vim .vim.backup
+ln -s -f dotfiles/vimrc .vimrc
 
 # setup Vundle
 # https://github.com/VundleVim/Vundle.vim
@@ -149,7 +181,7 @@ vim +BundleInstall +qall
 
 # tmux
 sudo apt-get install -y tmux
-ln -s -f dotfiles/.tmux.conf .
+ln -s -f dotfiles/tmux.conf .tmux.conf
 
 
 # /data/ directory
@@ -184,19 +216,16 @@ done
 # z
 ################################################################################
 # https://github.com/rupa/z
-setup_z() {
-    cd
-    # create $HOME/repositories/ directory
-    mkdir -v repositories
-    cd repositories
-    git clone https://github.com/rupa/z.git
-}
 while true; do
     echo ""
     read -p "do you want to setup z for Bash? (y/n): " SETUP_Z_ANSWER
     case $SETUP_Z_ANSWER in
         [Yy]* )
-            setup_z
+            cd
+            # create $HOME/repositories/ directory
+            mkdir -v repositories
+            cd repositories
+            git clone https://github.com/rupa/z.git
             break
             ;;
         [Nn]* )
@@ -234,16 +263,18 @@ done
 
 
 # root customization
+# TODO
+# improve and verify
 ################################################################################
 root_customization() {
     sudo mv -iv /root/dotfiles /root/dotfiles.backup
     sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
     sudo mv -iv /root/.bashrc /root/.bashrc.backup
-    sudo ln -s -f dotfiles/.bashrc /root/
+    sudo ln -s -f dotfiles/bashrc /root/.bashrc
     sudo mv -iv /root/.vim /root/.vim.backup
     sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
     sudo mv -iv /root/.vimrc /root/.vimrc.backup
-    sudo ln -s -f dotfiles/.vimrc /root/
+    sudo ln -s -f dotfiles/vimrc /root/.vimrc
     # TODO
     # create a symlink from /root/repositories/ to $HOME/repositories/
 }
