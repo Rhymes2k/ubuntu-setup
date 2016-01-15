@@ -155,9 +155,6 @@ if [ "$VERCOMP_RESULT" == 0 ] || [ "$VERCOMP_RESULT" == 1 ]; then
     echo -e "\n[push]\n    default = simple" >> .gitconfig
 fi
 
-[[ -f .gitignore ]] && mv -iv .gitignore .gitignore.backup
-ln -s -f dotfiles/data/.gitignore .
-
 # IPython
 if [ -f .ipython/profile_default/ipython_config.py ]; then
     mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
