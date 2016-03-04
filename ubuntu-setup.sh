@@ -79,7 +79,7 @@ cd $HOME
 sudo apt-get purge -y klipper
 
 # install packages
-sudo apt-get install -y curl git parcellite ssh tmux tree vim xclip
+sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx git parcellite ssh tmux tree vim xclip
 
 
 # download the repository for local access
