@@ -18,48 +18,11 @@ fi
 SCRIPT_USER=$USER
 
 
-# compare version numbers
-# http://stackoverflow.com/questions/4023830/bash-how-compare-two-strings-in-version-format
-vercomp () {
-    if [[ $1 == $2 ]]
-    then
-        return 0
-    fi
-    local IFS=.
-    local i ver1=($1) ver2=($2)
-    # fill empty fields in ver1 with zeros
-    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
-    do
-        ver1[i]=0
-    done
-    for ((i=0; i<${#ver1[@]}; i++))
-    do
-        if [[ -z ${ver2[i]} ]]
-        then
-            # fill empty fields in ver2 with zeros
-            ver2[i]=0
-        fi
-        if ((10#${ver1[i]} > 10#${ver2[i]}))
-        then
-            return 1
-        fi
-        if ((10#${ver1[i]} < 10#${ver2[i]}))
-        then
-            return 2
-        fi
-    done
-    return 0
-}
-
-
 while true; do
-    read -e -p "Do you want to update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE_ANSWER
-    case $UPDATE_AND_UPGRADE_ANSWER in
+    read -e -p "Do you want to update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE
+    case $UPDATE_AND_UPGRADE in
         [Yy]* )
-            # resynchronize the package index files
-            sudo apt-get update
-            # install the newest versions of all packages currently installed on the system
-            sudo apt-get upgrade
+            sudo apt-get update && sudo apt-get upgrade
             break
             ;;
         [Nn]* )
@@ -140,20 +103,7 @@ cp -iv dotfiles/bashrc_custom .bashrc_custom
 # .gitconfig
 [[ -f .gitconfig ]] && mv -iv .gitconfig .gitconfig.backup
 cp -iv dotfiles/gitconfig .gitconfig
-# TODO
-# when was this version added?
-# new setting added in git version ?
-# get the git version
-GIT_VERSION=`git --version | cut -d " " -f 3`
-#echo $GIT_VERSION
-GIT_BASE_VERSION="1.9.0"
-vercomp $GIT_VERSION $GIT_BASE_VERSION
-VERCOMP_RESULT=$?
-if [ "$VERCOMP_RESULT" == 0 ] || [ "$VERCOMP_RESULT" == 1 ]; then
-    echo "current git version $GIT_VERSION is at least $GIT_BASE_VERSION"
-    echo "setting push.default in .gitconfig to simple"
-    echo -e "\n[push]\n    default = simple" >> .gitconfig
-fi
+echo -e "\n[push]\n    default = simple" >> .gitconfig
 
 # IPython
 if [ -f .ipython/profile_default/ipython_config.py ]; then
@@ -275,8 +225,8 @@ root_customization() {
 }
 while true; do
     echo ""
-    read -p "do you want to install customizations for the root account? (y/n): " ROOT_CUSTOMIZATION_ANSWER
-    case $ROOT_CUSTOMIZATION_ANSWER in
+    read -p "do you want to install customizations for the root account? (y/n): " ROOT_CUSTOMIZATION
+    case $ROOT_CUSTOMIZATION in
         [Yy]* )
             root_customization
             break
