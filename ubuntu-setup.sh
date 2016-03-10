@@ -14,60 +14,77 @@ if ! command -v dpkg &> /dev/null; then
 fi
 
 
-# store the username
-SCRIPT_USER=$USER
-
-
-while true; do
-    read -e -p "Do you want to update and upgrade the system? (y/n): " UPDATE_AND_UPGRADE
-    case $UPDATE_AND_UPGRADE in
-        [Yy]* )
-            sudo apt-get update && sudo apt-get upgrade
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-
-
 cd $HOME
 
 
-# remove packages
-sudo apt-get purge -y klipper
-
-# install packages
-sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx git parcellite ssh tmux tree vim xclip
+# global variables
+SCRIPT_USER=$USER
+echo "you are logged in as user $SCRIPT_USER"
 
 
-# download the repository for local access
-[[ -d ubuntu-setup ]] && mv -iv ubuntu-setup ubuntu-setup.backup
-git clone https://github.com/paraschas/ubuntu-setup.git
+yes_no_question() {
+    while true; do
+        read -e -p "$1 (y/n): " YES_NO_ANSWER
+        case $YES_NO_ANSWER in
+            [y]* )
+                break
+                ;;
+            [n]* )
+                break
+                ;;
+            * )
+                echo "please enter \"y\" for yes or \"n\" for no"
+                ;;
+        esac
+    done
+
+    if [ "$YES_NO_ANSWER" == "y" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+yes_no_question "Do you have superuser rights on this system?"
+if [ $? -eq 1 ]; then
+    SUPERUSER_RIGHTS="y"
+else
+    echo "Skipping commands that require superuser rights."
+fi
+
+
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to update and upgrade the system?"
+    if [ $? -eq 1 ]; then
+        sudo apt-get update && sudo apt-get upgrade
+    fi
+fi
+
+
+remove_install_packages() {
+    # remove packages
+    sudo apt-get purge -y klipper
+
+    # install packages
+    sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx git parcellite ssh tmux tree vim xclip
+}
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to setup a selection of packages?"
+    if [ $? -eq 1 ]; then
+        remove_install_packages
+    fi
+fi
 
 
 # Fail2ban
 # http://www.fail2ban.org/
-while true; do
-    echo ""
-    read -p "do you want to install Fail2ban? (y/n): " INSTALL_FAIL2BAN
-    case $INSTALL_FAIL2BAN in
-        [Yy]* )
-            sudo apt-get install -y fail2ban
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to install Fail2ban?"
+    if [ $? -eq 1 ]; then
+        sudo apt-get install -y fail2ban
+    fi
+fi
 
 
 # dotfiles
@@ -129,33 +146,20 @@ vim +BundleInstall +qall
 ################################################################################
 
 
-# /data/ directory
-################################################################################
-data_directory() {
-    cd /
-    # create /data directory
-    sudo mkdir -v data
-    sudo chown -v $SCRIPT_USER:$SCRIPT_USER data
-    # link /data directory to /d/
-    sudo ln -v -s /data /d
+create_data_directory() {
+    sudo mkdir -v /data
+
+    sudo chown -v $SCRIPT_USER:$SCRIPT_USER /data
+
+    # create the symbolic link /d
+    sudo ln -s -v /data /d
 }
-while true; do
-    echo ""
-    read -p "do you want to create the /data directory? (y/n): " DATA_DIRECTORY_ANSWER
-    case $DATA_DIRECTORY_ANSWER in
-        [Yy]* )
-            data_directory
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-################################################################################
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to create the /data directory?"
+    if [ $? -eq 1 ]; then
+        create_data_directory
+    fi
+fi
 
 
 # z
