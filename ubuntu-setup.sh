@@ -59,6 +59,21 @@ backup_datetime() {
 }
 
 
+# create a symbolic link of a directory or file in dotfiles
+link_dotfiles() {
+    TARGET="$1"
+
+    # the argument starts with a dot
+    if [ ${TARGET:0:1} == "." ] && [ ! -d "$TARGET" ] && [ ! -f "$TARGET" ]; then
+        TARGET_WITHOUT_DOT=${TARGET:1}
+
+        ln -s -f -v dotfiles/"$TARGET_WITHOUT_DOT" ./\."$TARGET_WITHOUT_DOT"
+    else
+        ln -s -f -v dotfiles/"$TARGET" .
+    fi
+}
+
+
 yes_no_question "Do you have superuser rights on this system?"
 if [ $? -eq 1 ]; then
     SUPERUSER_RIGHTS="y"
@@ -117,29 +132,28 @@ backup_datetime .profile
 backup_datetime .vimperatorrc
 backup_datetime .tmux.conf
 
-ln -s -f dotfiles/ackrc .ackrc
-ln -s -f dotfiles/bash_aliases .bash_aliases
-ln -s -f dotfiles/bash_profile .bash_profile
-ln -s -f dotfiles/bashrc .bashrc
-ln -s -f dotfiles/inputrc .inputrc
-ln -s -f dotfiles/octaverc .octaverc
-ln -s -f dotfiles/profile .profile
-ln -s -f dotfiles/vimperatorrc .vimperatorrc
-ln -s -f dotfiles/tmux.conf .tmux.conf
+link_dotfiles .ackrc
+link_dotfiles .bash_aliases
+link_dotfiles .bash_profile
+link_dotfiles .bashrc
+link_dotfiles .inputrc
+link_dotfiles .octaverc
+link_dotfiles .profile
+link_dotfiles .vimperatorrc
+link_dotfiles .tmux.conf
 
 backup_datetime .bashrc_custom
 
-cp -iv dotfiles/bashrc_custom .bashrc_custom
+cp -i -v dotfiles/bashrc_custom .bashrc_custom
 
 # .gitconfig
 backup_datetime .gitconfig
-cp -iv dotfiles/gitconfig .gitconfig
-echo -e "\n[push]\n    default = simple" >> .gitconfig
+cp -i -v dotfiles/gitconfig .gitconfig
 
 # IPython
 backup_datetime .ipython/profile_default/ipython_config.py
 mkdir -p .ipython/profile_default/
-ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
+link_dotfiles .ipython/profile_default/ipython_config.py
 ################################################################################
 
 
@@ -147,7 +161,9 @@ ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 ################################################################################
 backup_datetime .vim
 backup_datetime .vimrc
-ln -s -f dotfiles/vimrc .vimrc
+
+cp -i -v dotfiles/vim .vim
+link_dotfiles .vimrc
 
 # setup Vundle
 # https://github.com/VundleVim/Vundle.vim
