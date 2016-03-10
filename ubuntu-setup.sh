@@ -46,6 +46,19 @@ yes_no_question() {
 }
 
 
+# append the suffix ".backup" and the datetime to a directory or file name
+backup_datetime() {
+    TARGET="$1"
+    DATE_TIME=`date +%Y-%m-%d_%H:%M:%S`
+
+    if [ -d "$TARGET" ] || [ -f "$TARGET" ]; then
+        if [ ! -L "$TARGET" ]; then
+            mv -i -v "$TARGET" "$TARGET"\."backup"\."$DATE_TIME"
+        fi
+    fi
+}
+
+
 yes_no_question "Do you have superuser rights on this system?"
 if [ $? -eq 1 ]; then
     SUPERUSER_RIGHTS="y"
@@ -89,19 +102,20 @@ fi
 
 # dotfiles
 ################################################################################
-[[ -d dotfiles ]] && mv -iv dotfiles dotfiles.backup
+
+backup_datetime dotfiles
 
 git clone https://github.com/paraschas/dotfiles.git
 
-[[ -f .ackrc ]] && mv -iv .ackrc .ackrc.backup
-[[ -f .bash_aliases ]] && mv -iv .bash_aliases .bash_aliases.backup
-[[ -f .bash_profile ]] && mv -iv .bash_profile .bash_profile.backup
-[[ -f .bashrc ]] && mv -iv .bashrc .bashrc.backup
-[[ -f .inputrc ]] && mv -iv .inputrc .inputrc.backup
-[[ -f .octaverc ]] && mv -iv .octaverc .octaverc.backup
-[[ -f .profile ]] && mv -iv .profile .profile.backup
-[[ -f .vimperatorrc ]] && mv -iv .vimperatorrc .vimperatorrc.backup
-[[ -f .tmux.conf ]] && mv -iv .tmux.conf .tmux.conf.backup
+backup_datetime .ackrc
+backup_datetime .bash_aliases
+backup_datetime .bash_profile
+backup_datetime .bashrc
+backup_datetime .inputrc
+backup_datetime .octaverc
+backup_datetime .profile
+backup_datetime .vimperatorrc
+backup_datetime .tmux.conf
 
 ln -s -f dotfiles/ackrc .ackrc
 ln -s -f dotfiles/bash_aliases .bash_aliases
@@ -113,19 +127,17 @@ ln -s -f dotfiles/profile .profile
 ln -s -f dotfiles/vimperatorrc .vimperatorrc
 ln -s -f dotfiles/tmux.conf .tmux.conf
 
-[[ -f .bashrc_custom ]] && mv -iv .bashrc_custom .bashrc_custom.backup
+backup_datetime .bashrc_custom
 
 cp -iv dotfiles/bashrc_custom .bashrc_custom
 
 # .gitconfig
-[[ -f .gitconfig ]] && mv -iv .gitconfig .gitconfig.backup
+backup_datetime .gitconfig
 cp -iv dotfiles/gitconfig .gitconfig
 echo -e "\n[push]\n    default = simple" >> .gitconfig
 
 # IPython
-if [ -f .ipython/profile_default/ipython_config.py ]; then
-    mv -iv .ipython/profile_default/ipython_config.py .ipython/profile_default/ipython_config.py.backup
-fi
+backup_datetime .ipython/profile_default/ipython_config.py
 mkdir -p .ipython/profile_default/
 ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 ################################################################################
@@ -133,8 +145,8 @@ ln -s -f dotfiles/.ipython/profile_default/ipython_config.py
 
 # Vim
 ################################################################################
-[[ -d .vim ]] && mv -iv .vim .vim.backup
-[[ -f .vimrc ]] && mv -iv .vimrc .vimrc.backup
+backup_datetime .vim
+backup_datetime .vimrc
 ln -s -f dotfiles/vimrc .vimrc
 
 # setup Vundle
@@ -163,87 +175,36 @@ fi
 
 
 # z
-################################################################################
 # https://github.com/rupa/z
-while true; do
-    echo ""
-    read -p "do you want to setup z for Bash? (y/n): " SETUP_Z_ANSWER
-    case $SETUP_Z_ANSWER in
-        [Yy]* )
-            cd
-            # create $HOME/repositories/ directory
-            mkdir -v repositories
-            cd repositories
-            git clone https://github.com/rupa/z.git
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-################################################################################
+yes_no_question "Do you want to setup z for Bash?"
+if [ $? -eq 1 ]; then
+    mkdir -v $HOME/repositories
+
+    git clone https://github.com/rupa/z.git $HOME/repositories
+fi
 
 
-# setup development tools
-################################################################################
-while true; do
-    echo ""
-    read -p "do you want to setup some development tools? (y/n): " SETUP_DEV_TOOLS
-    case $SETUP_DEV_TOOLS in
-        [Yy]* )
-            # install linux headers, build-essential, and other packages
-            sudo apt-get install module-assistant
-            sudo m-a prepare
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-################################################################################
+# install the linux-headers and build-essential packages
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to install the linux-headers and build-essential packages?"
+    if [ $? -eq 1 ]; then
+        sudo apt-get install module-assistant
+
+        sudo m-a prepare
+    fi
+fi
 
 
-# root customization
-# TODO
-# improve and verify
-################################################################################
-root_customization() {
-    sudo mv -iv /root/dotfiles /root/dotfiles.backup
-    sudo cp -iv -r /home/$SCRIPT_USER/dotfiles /root/
-    sudo mv -iv /root/.bashrc /root/.bashrc.backup
-    sudo ln -s -f dotfiles/bashrc /root/.bashrc
-    sudo mv -iv /root/.vim /root/.vim.backup
-    sudo cp -iv -r /home/$SCRIPT_USER/.vim /root/
-    sudo mv -iv /root/.vimrc /root/.vimrc.backup
-    sudo ln -s -f dotfiles/vimrc /root/.vimrc
-    # TODO
-    # create a symlink from /root/repositories/ to $HOME/repositories/
+# root customizations
+root_customizations() {
+    echo "not implemented yet"
 }
-while true; do
-    echo ""
-    read -p "do you want to install customizations for the root account? (y/n): " ROOT_CUSTOMIZATION
-    case $ROOT_CUSTOMIZATION in
-        [Yy]* )
-            root_customization
-            break
-            ;;
-        [Nn]* )
-            break
-            ;;
-        * )
-            echo "please enter \"y\" for yes or \"n\" for no"
-            ;;
-    esac
-done
-################################################################################
+if [ "$SUPERUSER_RIGHTS" == "y" ]; then
+    yes_no_question "Do you want to install customizations for the root account?"
+    if [ $? -eq 1 ]; then
+        root_customizations
+    fi
+fi
 
 
 echo ""
