@@ -4,4 +4,8 @@
 # Vim swap files
 *.swp
 
-notes.txt
+# Python byte code files
+*.pyc
+
+# Java byte code files
+*.class
