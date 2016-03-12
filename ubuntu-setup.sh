@@ -64,7 +64,7 @@ link_dotfiles() {
     TARGET="$1"
 
     # the argument starts with a dot
-    if [ ${TARGET:0:1} == "." ] && [ ! -d "$TARGET" ] && [ ! -f "$TARGET" ]; then
+    if [ ${TARGET:0:1} == "." ] && [ ! -d dotfiles/"$TARGET" ] && [ ! -f dotfiles/"$TARGET" ]; then
         TARGET_WITHOUT_DOT=${TARGET:1}
 
         ln -s -f -v dotfiles/"$TARGET_WITHOUT_DOT" ./\."$TARGET_WITHOUT_DOT"
@@ -162,7 +162,7 @@ link_dotfiles .ipython/profile_default/ipython_config.py
 backup_datetime .vim
 backup_datetime .vimrc
 
-cp -i -v dotfiles/vim .vim
+cp -r -i -v dotfiles/vim .vim
 link_dotfiles .vimrc
 
 # setup Vundle
@@ -194,9 +194,11 @@ fi
 # https://github.com/rupa/z
 yes_no_question "Do you want to setup z for Bash?"
 if [ $? -eq 1 ]; then
-    mkdir -v $HOME/repositories
+    mkdir -p -v $HOME/repositories
 
-    git clone https://github.com/rupa/z.git $HOME/repositories
+    backup_datetime $HOME/repositories/z
+
+    git clone https://github.com/rupa/z.git $HOME/repositories/z
 fi
 
 
