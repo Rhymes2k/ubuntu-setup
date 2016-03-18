@@ -24,7 +24,7 @@ echo "you are logged in as user $SCRIPT_USER"
 
 yes_no_question() {
     while true; do
-        read -e -p "$1 (y/n): " YES_NO_ANSWER
+        read -e -p -r "$1 (y/n): " YES_NO_ANSWER
         case $YES_NO_ANSWER in
             [y]* )
                 break
@@ -49,11 +49,11 @@ yes_no_question() {
 # append the suffix ".backup" and the datetime to a directory or file name
 backup_datetime() {
     TARGET="$1"
-    DATE_TIME=`date +%Y-%m-%d_%H:%M:%S`
+    DATE_TIME=$(date +%Y-%m-%d_%H:%M:%S)
 
     if [ -d "$TARGET" ] || [ -f "$TARGET" ]; then
         if [ ! -L "$TARGET" ]; then
-            mv -i -v "$TARGET" "$TARGET"\."backup"\."$DATE_TIME"
+            mv -i -v "$TARGET" "$TARGET"\.backup\."$DATE_TIME"
         fi
     fi
 }
@@ -64,8 +64,8 @@ link_dotfiles() {
     TARGET="$1"
 
     # the argument starts with a dot
-    if [ ${TARGET:0:1} == "." ] && [ ! -d dotfiles/"$TARGET" ] && [ ! -f dotfiles/"$TARGET" ]; then
-        TARGET_WITHOUT_DOT=${TARGET:1}
+    if [ "${TARGET:0:1}" == "." ] && [ ! -d dotfiles/"$TARGET" ] && [ ! -f dotfiles/"$TARGET" ]; then
+        TARGET_WITHOUT_DOT="${TARGET:1}"
 
         ln -s -f -v dotfiles/"$TARGET_WITHOUT_DOT" ./\."$TARGET_WITHOUT_DOT"
     else
