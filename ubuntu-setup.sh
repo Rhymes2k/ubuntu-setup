@@ -142,9 +142,9 @@ link_dotfiles .profile
 link_dotfiles .vimperatorrc
 link_dotfiles .tmux.conf
 
-backup_datetime .bashrc_custom
+backup_datetime .bashrc_local
 
-cp -i -v dotfiles/bashrc_custom .bashrc_custom
+cp -i -v dotfiles/bashrc_custom .bashrc_local
 
 # .gitconfig
 backup_datetime .gitconfig
