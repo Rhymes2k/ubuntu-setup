@@ -123,7 +123,7 @@ backup_datetime dotfiles
 git clone https://github.com/paraschas/dotfiles.git
 
 backup_datetime .ackrc
-backup_datetime .bash_aliases
+backup_datetime .bash_extensions
 backup_datetime .bash_profile
 backup_datetime .bashrc
 backup_datetime .inputrc
@@ -133,7 +133,7 @@ backup_datetime .vimperatorrc
 backup_datetime .tmux.conf
 
 link_dotfiles .ackrc
-link_dotfiles .bash_aliases
+link_dotfiles .bash_extensions
 link_dotfiles .bash_profile
 link_dotfiles .bashrc
 link_dotfiles .inputrc
