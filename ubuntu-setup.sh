@@ -24,7 +24,7 @@ echo "you are logged in as user $SCRIPT_USER"
 
 yes_no_question() {
     while true; do
-        read -e -p -r "$1 (y/n): " YES_NO_ANSWER
+        read -e -p "$1 (y/n): " YES_NO_ANSWER
         case $YES_NO_ANSWER in
             [y]* )
                 break
