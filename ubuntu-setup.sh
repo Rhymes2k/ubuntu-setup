@@ -67,9 +67,9 @@ link_dotfiles() {
     if [ "${TARGET:0:1}" == "." ] && [ ! -d dotfiles/"$TARGET" ] && [ ! -f dotfiles/"$TARGET" ]; then
         TARGET_WITHOUT_DOT="${TARGET:1}"
 
-        ln -s -f -v dotfiles/"$TARGET_WITHOUT_DOT" ./\."$TARGET_WITHOUT_DOT"
+        ln -s -f -v $HOME/dotfiles/"$TARGET_WITHOUT_DOT" ./\."$TARGET_WITHOUT_DOT"
     else
-        ln -s -f -v dotfiles/"$TARGET" .
+        ln -s -f -v $HOME/dotfiles/"$TARGET" .
     fi
 }
 
@@ -167,7 +167,7 @@ link_dotfiles .vimrc
 
 # setup Vundle
 # https://github.com/VundleVim/Vundle.vim
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
 
 # install configured bundles
 vim +BundleInstall +qall
