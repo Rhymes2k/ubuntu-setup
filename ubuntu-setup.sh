@@ -95,7 +95,7 @@ remove_install_packages() {
     sudo apt-get purge -y klipper
 
     # install packages
-    sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx git parcellite ssh tmux tree vim xclip
+    sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx git p7zip-full p7zip-rar parcellite ssh tmux tree vim xclip
 }
 if [ "$SUPERUSER_RIGHTS" == "y" ]; then
     yes_no_question "Do you want to setup a selection of packages?"
