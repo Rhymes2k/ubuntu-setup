@@ -1,13 +1,12 @@
 #!/bin/bash
 
 # ubuntu-setup.sh
-# Dimitrios Paraschas (paraschas@gmail.com)
-
 # configure an Ubuntu or Kubuntu 14.04 LTS system
+
+# Dimitrios Paraschas (paraschas@gmail.com)
 
 
 # verify that the computer is running a Debian derivative
-# http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
 if ! command -v dpkg &> /dev/null; then
     echo "this script is meant to be run on an Ubuntu system"
     exit 1
