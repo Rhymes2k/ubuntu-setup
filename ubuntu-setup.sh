@@ -89,17 +89,28 @@ if [ "$SUPERUSER_RIGHTS" == "y" ]; then
 fi
 
 
-remove_install_packages() {
-    # remove packages
-    sudo apt-get purge -y klipper
-
-    # install packages
-    sudo apt-get install -y ack-grep curl goldendict kdiff3 keepassx kubuntu-web-shortcuts git p7zip-full p7zip-rar parcellite ssh tmux tree vim-gtk xclip
+remove_packages() {
+    sudo apt-get purge -y klipper kubuntu-web-shortcuts
 }
+
+install_standard_packages() {
+    sudo apt-get install -y ack-grep curl git p7zip-full p7zip-rar ssh tmux tree vim-gtk xclip
+}
+
+install_desktop_packages() {
+    sudo apt-get install -y goldendict kdiff3 keepassx parcellite
+}
+
 if [ "$SUPERUSER_RIGHTS" == "y" ]; then
     yes_no_question "Do you want to setup a selection of packages?"
     if [ $? -eq 1 ]; then
-        remove_install_packages
+        remove_packages
+
+        install_standard_packages
+    fi
+    yes_no_question "Is this a desktop system?"
+    if [ $? -eq 1 ]; then
+        install_desktop_packages
     fi
 fi
 
