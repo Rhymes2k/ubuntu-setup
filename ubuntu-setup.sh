@@ -94,7 +94,7 @@ remove_packages() {
 }
 
 install_standard_packages() {
-    sudo apt-get install -y ack-grep curl git p7zip-full p7zip-rar ssh tmux tree vim-gtk xclip
+    sudo apt-get install -y ack-grep curl dos2unix git p7zip-full p7zip-rar ssh tmux tree vim-gtk xclip
 }
 
 install_desktop_packages() {
