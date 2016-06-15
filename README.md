@@ -1,4 +1,4 @@
-Ubuntu/Kubuntu 14.04 LTS configuration
+Ubuntu/Kubuntu 16.04 LTS configuration
 ===
 
 Configuration of an Ubuntu/Kubuntu system, and installation of my dotfiles.

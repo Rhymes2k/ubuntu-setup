@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ubuntu-setup.sh
-# configure an Ubuntu or Kubuntu 14.04 LTS system
+# configure an Ubuntu or Kubuntu 16.04 LTS system
 
 # Dimitrios Paraschas (paraschas@gmail.com)
 
