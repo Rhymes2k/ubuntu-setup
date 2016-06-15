@@ -73,6 +73,24 @@ link_dotfiles() {
 }
 
 
+setup_firewall() {
+    # deny all incoming connections except for ssh
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw allow ssh
+
+    # turn on the firewall
+    sudo ufw enable
+
+    # enable incoming connections for a web server
+    sudo ufw allow http
+    sudo ufw allow https
+
+    # check the status of the firewall
+    sudo ufw status
+}
+
+
 yes_no_question "Do you have superuser rights on this system?"
 if [ $? -eq 1 ]; then
     SUPERUSER_RIGHTS="y"
@@ -115,12 +133,17 @@ if [ "$SUPERUSER_RIGHTS" == "y" ]; then
     fi
 
     yes_no_question "Is this a server system?"
-    # install Fail2ban, setup unattended security upgrades
     if [ $? -eq 1 ]; then
-        sudo apt-get install -y unattended-upgrades fail2ban
+        sudo apt-get install -y fail2ban unattended-upgrades ufw
+
+        # setup unattended security upgrades
         sudo dpkg-reconfigure unattended-upgrades
+
+        # setup the firewall
+        setup_firewall
     fi
 fi
+
 
 
 # dotfiles
