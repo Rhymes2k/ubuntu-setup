@@ -108,19 +108,17 @@ if [ "$SUPERUSER_RIGHTS" == "y" ]; then
 
         install_standard_packages
     fi
+
     yes_no_question "Is this a desktop system?"
     if [ $? -eq 1 ]; then
         install_desktop_packages
     fi
-fi
 
-
-# Fail2ban
-# http://www.fail2ban.org/
-if [ "$SUPERUSER_RIGHTS" == "y" ]; then
-    yes_no_question "Do you want to install Fail2ban?"
+    yes_no_question "Is this a server system?"
+    # install Fail2ban, setup unattended security upgrades
     if [ $? -eq 1 ]; then
-        sudo apt-get install -y fail2ban
+        sudo apt-get install -y unattended-upgrades fail2ban
+        sudo dpkg-reconfigure unattended-upgrades
     fi
 fi
 
